@@ -3,12 +3,15 @@ using namespace std;
 
 int dfs(int node, int parent, vector<int> adj[], vector<int>& values){
 
-    int mn = 1e2;
+    int mn = 1e9;
     for(int adjNode: adj[node]){
         if(adjNode == parent) continue;
         mn = min(mn, dfs(adjNode, node, adj, values));
     }
-    return values[node] + (mn == 1e2?0:mn);
+    if(node == 0) return mn + values[0];
+    if(mn == 1e9) return values[node];
+    if(values[node] >= mn) return mn;
+    return (mn + values[node])/2;
 }
 
 void solve(){
